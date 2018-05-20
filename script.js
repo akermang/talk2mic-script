@@ -1,6 +1,15 @@
 var inputElements = document.getElementsByTagName('input');
 var micIconSrc = '/assets/img/mic-icon.png';
 
+var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+// var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
+var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+var recognition = new SpeechRecognition();
+//recognition.continuous = false;
+recognition.lang = 'en-US';
+recognition.interimResults = false;
+recognition.maxAlternatives = 1;
+
 init(inputElements);
 
 function init(inputs) {
@@ -44,6 +53,16 @@ function getTranscription() {
     // will end up in the input value
 
     // voice to text
+
+    recognition.start();
+    console.log('Recording!!!');
+    recognition.onresult = function(event) {
+        console.log(event.results)
+        let val = event.results.transcript
+    }
+    recognition.onspeechend = function() {
+        recognition.stop();
+      }
 
     return 'gal galg alga l';
 }
